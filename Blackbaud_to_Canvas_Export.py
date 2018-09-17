@@ -7,7 +7,6 @@
 #                                                                                         #
 # Created:     8/16/2017                                                                  #
 # Copyright:   (c) jdammeier 2018                                                         #
-# Licence:     Open                                                                       #
 #-----------------------------------------------------------------------------------------#
 
 #The following modules must mbe imported. All are standard python libraies except for Paraminko
