@@ -5,7 +5,7 @@
 #                                                                                         #                                                                              
 # Author:      Justin Dammeier                                                            #
 #                                                                                         #
-# Created:     8/16/2017                                                                  #
+# Created:     9/16/2018                                                                 #
 # Copyright:   (c) jdammeier 2018                                                         #
 #-----------------------------------------------------------------------------------------#
 
@@ -40,12 +40,12 @@ def get_bb_token(username,password):
       return (token)
 
 def getInput(file_in):
-    '''Opens the file, produces list of lines in the file, removes the header row, and returns the list'''
-    inFile = open(file_in)
-    inputList = inFile.read().splitlines()
-    del inputList[0]
-    inFile.close()
-    return inputList
+      '''Opens the file, produces list of lines in the file, removes the header row, and returns the list'''
+      inFile = open(file_in)
+      inputList = inFile.read().splitlines()
+      del inputList[0]
+      inFile.close()
+      return inputList
 
 def get_bb_file(list_id, file_out):
       '''Converts JSON formatted data from Blackbaud LIST API into csv file. Provde onProduct list ID and final filename'''
@@ -65,22 +65,22 @@ def get_bb_file(list_id, file_out):
             writer.writerows(csv_data)
 
 def course_merge(file_in, file_out, subaccount_id):
-    '''Produces Temp CSV for courses and adds the correct SchoolID to the file'''
-    outFile = open(file_out, 'w')
-    lines = getInput(file_in) #path to input file
+      '''Produces Temp CSV for courses and adds the correct SchoolID to the file'''
+      outFile = open(file_out, 'w')
+      lines = getInput(file_in) #path to input file
+      
+      #define & write header row for final CSV
+      header = ['CourseID','CourseTitle','SchoolLevel','SchoolID']
+      columnHead = ','.join(header)
+      outFile.write(columnHead + '\n')
 
-    #define & write header row for final CSV
-    header = ['CourseID','CourseTitle','SchoolLevel','SchoolID']
-    columnHead = ','.join(header)
-    outFile.write(columnHead + '\n')
+      for line in lines:
+            part1 = line[0:]
+            final = [part1, subaccount_id]
+            result = ','.join(final)
+            outFile.write(result + '\n')
 
-    for line in lines:
-          part1 = line[0:]
-          final = [part1, subaccount_id]
-          result = ','.join(final)
-          outFile.write(result + '\n')
-
-    outFile.close()
+      outFile.close()
 
 def ftp_upload(local_path, remote_path):
       #open host
@@ -104,62 +104,62 @@ def ftp_upload(local_path, remote_path):
       transport.close()
 
 def get_contacts(filename):
-    """
-    Return two lists names, emails containing names and email addresses
-    read from a file specified by filename.
-    """
-    names = []
-    emails = []
-    export = []
-    with open(filename, mode='r', encoding='utf-8') as contacts_file:
-        for a_contact in contacts_file:
-            names.append(a_contact.split(',')[0])
-            emails.append(a_contact.split(',')[1])
-    return names, emails
+      """
+      Return two lists names, emails containing names and email addresses
+      read from a file specified by filename.
+      """
+      names = []
+      emails = []
+      export = []
+      with open(filename, mode='r', encoding='utf-8') as contacts_file:
+            for a_contact in contacts_file:
+                  names.append(a_contact.split(',')[0])
+                  emails.append(a_contact.split(',')[1])
+      return names, emails
 
 def read_template(filename):
-    """
-    Returns a Template object comprising the contents of the file specified by filename.
-    """
+      """
+      Returns a Template object comprising the contents of the file specified by filename.
+      """
     
-    with open(filename, 'r', encoding='utf-8') as template_file:
-        template_file_content = template_file.read()
-    return Template(template_file_content)
+      with open(filename, 'r', encoding='utf-8') as template_file:
+            template_file_content = template_file.read()
+      return Template(template_file_content)
 
 def send_email(username, password, subject, contacts, message):
-    """
-    Sends email via google smtp server. Limited to approximately 90 emails per run.
-    """
-    names, emails = get_contacts(contacts) #read contacts
-    message_template = read_template(message) # get message body
-
-    # set up the SMTP (this example uses gmail)
-    s = smtplib.SMTP(host='smtp.gmail.com', port=587)
-    s.starttls()
-    s.login(username, password)
-
-    # For each contact, send the email:
-    for name, email in zip(names, emails):
-        msg = MIMEMultipart()       # create a message
-
-        # add in the actual person name to the message template
-        message = message_template.substitute(PERSON_NAME=name.title(), SUBJECT=subject)
-
-        # setup the parameters of the message
-        msg['To']=email
-        msg['Subject']=subject
+      """
+      Sends email via google smtp server. Limited to approximately 90 emails per run.
+      """
+      names, emails = get_contacts(contacts) #read contacts
+      message_template = read_template(message) # get message body
+      
+      # set up the SMTP (this example uses gmail)
+      s = smtplib.SMTP(host='smtp.gmail.com', port=587)
+      s.starttls()
+      s.login(username, password)
+      
+      # For each contact, send the email:
+      for name, email in zip(names, emails):
+            msg = MIMEMultipart()       # create a message
+            
+            # add in the actual person name to the message template
+            message = message_template.substitute(PERSON_NAME=name.title(), SUBJECT=subject)
+            
+            # setup the parameters of the message
+            msg['To']=email
+            msg['Subject']=subject
+            
+            # add in the message body
+            msg.attach(MIMEText(message, 'plain'))
+            
+            # send the message via the smpt connection set up earlier and then deletes the message.
+            s.send_message(msg)
+            
+            #comment out next line to keep message in the sent folder
+            del msg
         
-        # add in the message body
-        msg.attach(MIMEText(message, 'plain'))
-        
-        # send the message via the smpt connection set up earlier and then deletes the message.
-        s.send_message(msg)
-
-        #comment out next line to keep message in the sent folder
-        del msg
-        
-    # Terminate the SMTP session and close the connection
-    s.quit()
+      # Terminate the SMTP session and close the connection
+      s.quit()
 
 #-------------------------------------------------------------------------------#
 # main program - only edit content below.                                       #
@@ -168,7 +168,6 @@ def send_email(username, password, subject, contacts, message):
 #define global variables
 token = get_bb_token('username','password') #first parameter is username and second is password of user account with WEB API role
 api_endpoint = 'https://#yourschool#.myschoolapp.com/api/' #sets first part of api urls throughout the program
-
 
 #Build files from Blackbaud onProducts
 #First paremeter is Blackbaud advanced list id, second is Path to output file
