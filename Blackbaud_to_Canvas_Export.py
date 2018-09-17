@@ -188,7 +188,7 @@ get_bb_file('00000','C:\Path_to_output_filefile\STUDENT_COURSE_SECTION_ENROLLMEN
 
 #Step 3 = Edit course files.
 #Takes activity input file, course input file, output filename, activity subaccount ID, and course subaccount ID as arguments
-course_merge('C:\Path_to_input_file\COURSE_TEMP.csv', 'C:\Path_to_output_file\COURSE.csv', '3')
+course_merge('C:\Path_to_input_file\COURSE_TEMP.csv', 'C:\Path_to_output_file\COURSE.csv', 'XXXXX')
 
 #Step 4 = Send FINAL files to Kimono via sftp.
 #Only edit first parameter path. filenames should not be edited.
