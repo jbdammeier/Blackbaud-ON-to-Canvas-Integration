@@ -1,6 +1,7 @@
 BLACKBAUD ON to CANVAS INTEGRATION DOCUMENTATION
 
 PYTHON AUTOMATION
+The program is tested and verified in Python 3.6. using Windows 10 & Windows Server 2016.
 The python program is commented in a detailed manner so that anyone with python experience will know what each part of the program does. The template should just be edited for individual instances.
 The Windows Task Scheduler is set to run this script every day at 5:00pm (Adjust to 4:00pm during Standard Time). This is approx. ½ hour before the Kimono picks up the information
 The program will pull all required information from the specified lists above and export final CSV files to Kimono via SFTP.
