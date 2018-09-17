@@ -2,9 +2,9 @@ BLACKBAUD ON to CANVAS INTEGRATION DOCUMENTATION
 
 PYTHON AUTOMATION
 The python program is commented in a detailed manner so that anyone with python experience will know what each part of the program does. The template should just be edited for individual instances.
-The Windows Task Scheduler is set to run this script every day at 5:00pm (Adjust to 4:00pm during Standard Time). This is approx. ½ hour before the Kimono picks up the information
+The Windows Task Scheduler is set to run this script every day at 5:00pm (Adjust to 4:00pm during Standard Time). This is approx. Â½ hour before the Kimono picks up the information
 The program will pull all required information from the specified lists above and export final CSV files to Kimono via SFTP.
-It is important that the ON Advanced Lists ARE NOT copied. The list id from Gateway is how the program pulls the correct information.
+It is important that the ON Advanced Lists ARE NOT copied. The list id from Blackbaud ON is how the program pulls the correct information.
 
 ON ADVANCED LISTS & KIMONO FILES: - Organized by Kimono File Name (See Screenshots Folder for examples of the advanced lists configuration in ON)
 1. manifest.xml
