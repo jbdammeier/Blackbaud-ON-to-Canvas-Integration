@@ -1,0 +1,6 @@
+Hello ${PERSON_NAME},
+
+The ${SUBJECT} process was completed successfully.
+
+Thanks,
+IT Department

@@ -1,0 +1,174 @@
+<!--
+
+	Guerin Blackbaud
+
+-->
+
+<Manifest Version='2'>
+	<Ingest>
+		<FileSet>
+			<Pattern Syntax="glob">school.csv</Pattern>
+			<Row>
+				<Object Topic='SCHOOL'>
+					<Attributes>
+                        <Attribute Name="$sys.source_id">schoolid</Attribute>
+						<Attribute Name="source_id">schoolid</Attribute>
+                        <Attribute Name="school_id">schoolid</Attribute>
+						<Attribute Name="local_id">schoolid</Attribute>
+						<Attribute Name="name">name</Attribute>
+					</Attributes>
+				</Object>
+			</Row>
+		</FileSet>
+
+		<FileSet>
+			<Pattern>student.csv</Pattern>
+			<Row>
+				<Object Topic='STUDENT'>
+					<Attributes>
+                        <Attribute Name="$sys.source_id">studentuserid</Attribute>
+						<Attribute Name="source_id">studentuserid</Attribute>
+						<Attribute Name="local_id">studentuserid</Attribute>
+						<Attribute Name="state_id">statestudentid</Attribute>
+                        <Attribute Name="grad_year">graduationyear</Attribute>
+                        <Attribute Name="student_grade">student_grade</Attribute>
+						<Attribute Name="last_name">lastname</Attribute>
+						<Attribute Name="first_name">firstname</Attribute>
+						<Attribute Name="middle_name">middlename</Attribute>
+						<Attribute Name="username">username</Attribute>
+						<Attribute Name="email">email</Attribute>
+					</Attributes>
+				</Object>
+			</Row>
+		</FileSet>
+
+		<FileSet>
+			<Pattern>staff.csv</Pattern>
+			<Row>
+				<Object Topic='STAFF'>
+					<Attributes>
+                        <Attribute Name="$sys.source_id">staffuserid</Attribute>
+						<Attribute Name="source_id">staffuserid</Attribute>
+						<Attribute Name="local_id">staffuserid</Attribute>
+                        <Attribute Name="role">role</Attribute>
+                        <Attribute Name="prefix">prefix</Attribute>
+						<Attribute Name="email">email</Attribute>
+						<Attribute Name="username">username</Attribute>
+						<Attribute Name="last_name">lastname</Attribute>
+						<Attribute Name="first_name">firstname</Attribute>
+						<Attribute Name="middle_name">middlename</Attribute>
+					</Attributes>
+				</Object>
+			</Row>
+		</FileSet>
+
+		<FileSet>
+			<Pattern>term.csv</Pattern>
+			<Row>
+				<Object Topic='TERM'>
+					<Attributes>
+						<Attribute Name="source_id">termid</Attribute>
+                        <Attribute Name="$sys.source_id">termid</Attribute>
+						<Attribute Name="term_id">termid</Attribute>
+                        <Attribute Name="name">termdescription</Attribute>
+                        <Attribute Name="school_level">schoollevel</Attribute>
+                        <Attribute Name="school_id">schoolid</Attribute>
+                        <Attribute Name="school_year">schoolyear</Attribute>
+						<Attribute Name="start_date">begindate</Attribute>
+						<Attribute Name="end_date">enddate</Attribute>
+					</Attributes>
+				</Object>
+			</Row>
+		</FileSet>		
+
+		<FileSet>
+			<Pattern>course.csv</Pattern>
+			<Row>
+				<Object Topic='COURSE'>
+      <!-- RDM 1 
+        - source_id = Course Source ID - used to lookup and reference
+        - school_id = the source_id of the parent org of type school
+        - course_title = the title of the course to generate the label
+      -->        
+					<Attributes>
+						<Attribute Name="$sys.source_id">courseid</Attribute>
+                        <Attribute Name="source_id">courseid</Attribute>
+						<Attribute Name="school_id">schoolid</Attribute>
+						<Attribute Name="title">coursetitle</Attribute>
+                        <Attribute Name="school_level">schoollevel</Attribute>
+                        <Attribute Name="school_year">schoolyear</Attribute>
+					</Attributes>
+				</Object>
+			</Row>
+		</FileSet>		
+
+		<FileSet>
+			<Pattern>course_section.csv</Pattern>      
+			<Row>
+				<Object Topic='COURSE_SECTION'>
+            <!-- RDM 1 
+              - source_id = Section Source ID - used to lookup and reference
+              - course_id = the source_id of the parent course
+              - staff_id = the source_id of the staff member associated with the sections
+              - term_id = may be used in lieu of the SECTION_TERM_ASSOC
+            -->
+					<Attributes>
+						<Attribute Name="$sys.source_id">sectionid</Attribute>
+						<Attribute Name="source_id">sectionid</Attribute>
+                        <Attribute Name="section_id">sectionid</Attribute>
+						<Attribute Name="$course.$sys.source_id">courseid</Attribute>
+						<Attribute Name="course_id">courseid</Attribute>
+						<Attribute Name="course_title">coursetitle</Attribute>
+						<Attribute Name="local_id">sectionid</Attribute>
+                        <Attribute Name="section_number">sectionnumber</Attribute>
+                        <Attribute Name="block">block</Attribute>
+                        <Attribute Name="staff_id">staffuserid</Attribute>
+                        <Attribute Name="staff_last_name">stafflastname</Attribute>
+                        <Attribute Name="school_id">entity_id</Attribute>
+                        <Attribute Name="term_id">termid</Attribute>
+						<Attribute Name="term_description">termdescription</Attribute>
+						<!-- <Attribute Name="$teachers">arrayOf("$(Teacher_ID)","$(Teacher_ID_2)")</Attribute> -->
+					</Attributes>
+				</Object>
+				<Object Topic='COURSE_SECTION' Domain='SECTION_TERM_ASSOC'>
+					<Attributes>
+						<Attribute Name="$section.$sys.source_id">sectionid</Attribute>
+						<Attribute Name="$term.$sys.source_id">termid</Attribute>
+					</Attributes>
+				</Object>
+				<Object Topic='STAFF_COURSE_SECTION_ENROLLMENT'>
+					<Options>
+						<MatchKeys>
+							<Key Name="staff_id"/>
+							<Key Name="section_id"/>
+						</MatchKeys>
+					</Options>
+					<Attributes>
+						<Attribute Name="section_id">sectionid</Attribute>
+						<Attribute Name="staff_id">staffuserid</Attribute>
+					</Attributes>
+				</Object>
+			</Row>
+		</FileSet>
+        <FileSet>
+			<Pattern>student_course_section_enrollment.csv</Pattern>
+			<Row>
+				<Object Topic='STUDENT_COURSE_SECTION_ENROLLMENT'>
+					<Options>
+						<MatchKeys>
+							<Key Name="student_id"/>
+							<Key Name="section_id"/>
+						</MatchKeys>
+					</Options>
+					<Attributes>
+						<Attribute Name="section_id">sectionid</Attribute>
+						<Attribute Name="student_id">studentuserid</Attribute>
+						<Attribute Name="entry_date">begindate</Attribute>
+					</Attributes>
+				</Object>
+			</Row>
+		</FileSet>
+	</Ingest>	
+</Manifest>
+		
+		
