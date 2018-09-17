@@ -1,5 +1,5 @@
 #-----------------------------------------------------------------------------------------#
-# Name:        Blackbaud_ON_to_Canvas_Export.py                                              #
+# Name:        Blackbaud_ON_to_Canvas_Export.py                                           #
 # Purpose:     Program to pull data from Blackbaud onProduct lists to Kimono for Canvas   #
 #              integration using list api call & send to Kimono via sftp                  #
 #                                                                                         #                                                                              
